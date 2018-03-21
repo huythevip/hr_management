@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 class HrController extends Controller
 {
-    public function login()
+    public function index()
     {
-    	return view('login');
+    	return view('index');
     }
 }
