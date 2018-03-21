@@ -16,3 +16,27 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('api_test', function (Request $request) {
+    dd($request->all());
+    return json_encode(
+        [
+            'error' => false,
+
+            'data' => [
+                'a' => 'b'
+            ]
+        ]
+
+
+//        [
+//            'error' => true,
+//            'message' => 'Something wrong'
+//        ]
+    );
+});
+
+Route::post('departments', function(Request $request) {
+    //store
+    dd($request->all());
+});
