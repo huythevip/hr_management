@@ -17,26 +17,28 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('api_test', function (Request $request) {
-    dd($request->all());
-    return json_encode(
-        [
-            'error' => false,
+Route::get('department_column', 'HrController@department_column');
+Route::get('staff_list', 'HrController@staff_list');
+// Route::get('api_test', function (Request $request) {
+//     dd($request->all());
+//     return json_encode(
+//         [
+//             'error' => false,
 
-            'data' => [
-                'a' => 'b'
-            ]
-        ]
+//             'data' => [
+//                 'a' => 'b'
+//             ]
+//         ]
 
 
-//        [
-//            'error' => true,
-//            'message' => 'Something wrong'
-//        ]
-    );
-});
+// //        [
+// //            'error' => true,
+// //            'message' => 'Something wrong'
+// //        ]
+//     );
+// });
 
-Route::post('departments', function(Request $request) {
-    //store
-    dd($request->all());
-});
+// Route::post('departments', function(Request $request) {
+//     //store
+//     dd($request->all());
+// });
