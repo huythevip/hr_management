@@ -36,4 +36,21 @@ class HrController extends Controller
 		return json_encode($all_staff);
     }
 
+    public function staff_add (request $request) {
+
+        $requested_dept = $request->department;
+        $dept_name_id = DB::table('departments')->pluck('id', 'full_name');
+        $dept_id = $dept_name_id[$requested_dept];
+
+        $staff = new Staff;
+            $staff->full_name = $request->full_name;
+            $staff->department_id = $dept_id;
+            $staff->position = $request->position;
+            $staff->skill = $request->skill;
+            $staff->year_exp = $request->exp;
+            $staff->year_join = $request->year_join;
+        $staff->save();
+        return json_encode(['message' => "Successfully added!"]);
+    }
+
 }

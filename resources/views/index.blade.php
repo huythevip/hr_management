@@ -3,34 +3,6 @@
 
 <!-- CSS -->
 @section('custom_css')
-    {{--.content_test {--}}
-    {{--width: 1000px;--}}
-    {{--height: 500px;--}}
-    {{--margin: 0 auto;--}}
-    {{--margin-top: 50px;--}}
-    {{--}--}}
-
-    {{--.information-panel {--}}
-    {{--height: 50px;--}}
-    {{--line-height: 50px;--}}
-    {{--}--}}
-
-    {{--.information-panel h1 {--}}
-    {{--float: left;--}}
-    {{--display: inline-block;--}}
-    {{--margin-left: 50px;--}}
-    {{--}--}}
-
-    {{--.information-panel select {--}}
-    {{--margin-left: 50px;--}}
-    {{--height: 30px;--}}
-    {{--}--}}
-
-    {{--.department-staff {--}}
-    {{--clear: left;--}}
-    {{--width: 100%; --}}
-    {{--height: 90%;--}}
-    {{--}--}}
     .abc {
     margin-bottom: 20px;
     }
@@ -43,6 +15,7 @@
     .xuong_20_px {
         margin-bottom: 20px;
     }
+
 @endsection
 
 <!-- Content -->
@@ -65,14 +38,18 @@
 
 
         <div class="row xuong_20_px">
-            <a href="#" class="btn btn-primary">Create</a>
+            <a href="#" class="btn btn-primary" id="create">Create</a>
+            <a href="#" class="btn btn-info hidden" id="save">Save</a>
+            <a href="#" class="btn btn-warning" id="edit">Edit</a>
+            <a href="#" class="btn btn-danger" id="delete">Delete</a>
+
         </div>
 
         <div class="row">
             <div class="department-staff">
-                <table id="my_table" class="table">
+                <table id="my_table" class="table table-striped">
                     <thead>
-                    <tr id="staff_info" class="info">
+                    <tr id="staff_info" class="danger">
                         <td width="20%">Full Name</td>
                         <td width="20%">Position</td>
                         <td width="40%">Skill</td>
@@ -110,10 +87,41 @@
                             <td>' + staff.skill + '</td>\
                             <td>' + staff.year_exp + '</td>\
                             <td>' + staff.year_join + '</td></tr>')
-                        });
-                    },
-                });
-            })
+                        }); //Foreach
+                    }, //End of success
+                }); //End of ajax
+            }) //end of function "change"
+
+            $('#create').click(function() {
+                    $('#staff_detail').html('');
+                    $('#staff_detail').append('<td><input class="form-control" type="text" name="full_name"></td>');
+                    $('#staff_detail').append('<td><input class="form-control" type="text" name="position"></td>');
+                    $('#staff_detail').append('<td><input class="form-control" type="text" name="skill"></td>');
+                    $('#staff_detail').append('<td><input class="form-control" type="text" name="exp"></td>');
+                    $('#staff_detail').append('<td><input class="form-control" type="text" name="year_join"></td>');
+                    $(this).addClass('hidden');
+                    $('#save').removeClass('hidden');
+            }); //end of function "click"
+
+            $('#save').click(function() {
+                full_name = $("input[name=full_name]").val();
+                department = $('#selected_dept').val();
+                position = $("input[name=position]").val();
+                skill = $("input[name=skill]").val();
+                exp = $("input[name=exp]").val();
+                year_join = $("input[name=year_join]").val();
+                $.ajax({
+                    url: 'api/staff_add',
+                    method: 'POST',
+                    data: {full_name, position, skill, exp, year_join, department},
+                    dataType: 'JSON',
+                    success: function (du_lieu) {
+                        alert(du_lieu.message);
+                        $('#create').removeClass('hidden');
+                        $('#save').addClass('hidden');
+                    }, //end of success
+                }); //end of ajax
+            }); //end of clicking button Save
         });
 
     </script>
