@@ -70,4 +70,11 @@ class HrController extends Controller
         return json_encode(['message' => "Successfully edited!"]);
     }
 
+    public function staff_delete (request $request) {
+        $staff = Staff::find($request->staff_id);
+        $staff->delete();
+
+        return json_encode(['message' => "Staff deleted permanently"]);
+    }
+
 }

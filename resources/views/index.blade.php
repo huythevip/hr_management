@@ -169,6 +169,23 @@
                         $(this).siblings('.btn_edt').removeClass('hidden');
             }); //end of clicking btn-save
 
+            $(document).on('click', '.btn_del', function(){
+                $(this).addClass('hidden');
+                $(this).siblings('.btn_delcon').removeClass('hidden');
+                $(this).siblings('.btn_delcon').click(function() {
+                    staff_id = $(this).parent().parent().children('.staff_id').text();
+                    $.ajax({
+                        url:'api/staff_delete',
+                        data: {staff_id},
+                        method: "POST",
+                        dataType: "JSON",
+                        success: function(du_lieu) {
+                            alert(du_lieu.message);
+                        } //End of success
+                    }); //End of ajax
+                $(this).parent().parent().html('');
+                }) //End of clicking button delete confirm
+            })  //end of clicking delete button     
 
         }); //End of document ready
 
