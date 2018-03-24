@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('department_column', 'HrController@department_column');
 Route::get('staff_list', 'HrController@staff_list');
 Route::post('staff_add', 'HrController@staff_add');
+Route::post('staff_edit', 'HrController@staff_edit');
 // Route::get('api_test', function (Request $request) {
 //     dd($request->all());
 //     return json_encode(
