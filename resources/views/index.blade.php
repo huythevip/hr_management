@@ -95,16 +95,18 @@
                 }); //End of ajax
             }) //end of function "change"
 
-            $('#create').click(function() {
-                    $('#staff_detail').html('');
-                    $('#staff_detail').append('<td><input class="form-control" type="text" name="full_name"></td>');
-                    $('#staff_detail').append('<td><input class="form-control" type="text" name="position"></td>');
-                    $('#staff_detail').append('<td><input class="form-control" type="text" name="skill"></td>');
-                    $('#staff_detail').append('<td><input class="form-control" type="text" name="exp"></td>');
-                    $('#staff_detail').append('<td><input class="form-control" type="text" name="year_join"></td>');
+            $('#create').click(function() {             
+                    $('#staff_detail').prepend('<tr></tr>');     
+                    $('#staff_detail tr').first().append('<td class="full_name"><input class="form-control" type="text" name="full_name"></td>');
+                    $('#staff_detail tr').first().append('<td class="position"><input class="form-control" type="text" name="position"></td>');
+                    $('#staff_detail tr').first().append('<td class="skill"><input class="form-control" type="text" name="skill"></td>');
+                    $('#staff_detail tr').first().append('<td class="exp"><input class="form-control" type="text" name="exp"></td>');
+                    $('#staff_detail tr').first().append('<td class="year_join"><input class="form-control" type="text" name="year_join"></td>');
+                    $('#staff_detail tr').first().append('<td class="staff_id hidden"><input class="form-control" type="text" name="staff_id"></td>');  
+                   
                     $(this).addClass('hidden');
                     $('#save').removeClass('hidden');
-            }); //end of function "click"
+            }); //end of function "click create"
 
             $('#save').click(function() {
                 full_name = $("input[name=full_name]").val();
@@ -120,10 +122,20 @@
                     dataType: 'JSON',
                     success: function (du_lieu) {
                         alert(du_lieu.message);
-                        $('#').removeClass('hidden');
-                        $('#save').addClass('hidden');
+                        $('input[name=staff_id]').replaceWith(du_lieu.staff_id);
                     }, //end of success
                 }); //end of ajax
+                $('#create').removeClass('hidden');
+                $('#save').addClass('hidden');
+                $('input[name=full_name]').replaceWith(full_name);
+                $('input[name=position]').replaceWith(position);
+                $('input[name=skill]').replaceWith(skill);
+                $('input[name=exp]').replaceWith(exp);
+                $('input[name=year_join]').replaceWith(year_join);
+                $('#staff_detail tr').first().append('<td><a href="#" class="btn btn-warning btn_edt">Edit</a>\
+                            <a href="#" class="btn btn-info btn_save hidden">Save</a>\
+                            <a href="#" class="btn btn-danger btn_del">Delete</a>\
+                            <a href="#" class="btn btn-danger btn_delcon hidden">Confirm</a></td>');
             }); //end of clicking button Save
 
             $(document).on('click', '.btn_edt', function(){

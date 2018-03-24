@@ -50,7 +50,9 @@ class HrController extends Controller
             $staff->year_exp = $request->exp;
             $staff->year_join = $request->year_join;
         $staff->save();
-        return json_encode(['message' => "Successfully added!"]);
+        return json_encode(['message' => "Successfully added!",
+                            'staff_id' => $staff->id
+    ]);
     }
 
     public function staff_edit (request $request) {
