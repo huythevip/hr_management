@@ -69,17 +69,10 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function () {
-            $('#selected_dept').change(function () {
-                $('#staff_detail').html('');
-                $.ajax({
-                    url: 'api/staff_list',
-                    method: 'GET',
-                    data: {'department': $('#selected_dept').val()},
-                    dataType: 'JSON',
-                    success: function (staffs) {
-                        staffs.forEach(function (staff) {
-                            $('#staff_detail').append('<tr>\
+
+        function RenderStaffTable (staffs) {
+             staffs.forEach(function (staff) {
+                return $('#staff_detail').append('<tr>\
                             <td class="full_name">' + staff.full_name + '</td>\
                             <td class="position">' + staff.position + '</td>\
                             <td class="skill">' + staff.skill + '</td>\
@@ -91,8 +84,19 @@
                             <a href="#" class="btn btn-info btn_save hidden">Save</a>\
                             <a href="#" class="btn btn-danger btn_del">Delete</a>\
                             <a href="#" class="btn btn-danger btn_delcon hidden">Confirm</a></td></tr>')
-                        }); //Foreach
-                    }, //End of success
+        })}
+
+        $(document).ready(function () {
+            $('#selected_dept').change(function () {
+                $('#staff_detail').html('');
+                $.ajax({
+                    url: 'api/staff_list',
+                    method: 'GET',
+                    data: {'department': $('#selected_dept').val()},
+                    dataType: 'JSON',
+                    success: function(staffs) {
+                        RenderStaffTable(staffs)
+                    }
                 }); //End of ajax
             }) //end of function "change"
 
@@ -143,17 +147,17 @@
             $(document).on('click', '.btn_edt', function(){
                 $(this).addClass('hidden');
                 $(this).siblings('.btn_save').removeClass('hidden');
-                full_name = $(this).parent().parent().children('.full_name').text();
-                staff_dept = $(this).parent().parent().children('.staff_dept').text();
-                position = $(this).parent().parent().children('.position').text();
-                skill = $(this).parent().parent().children('.skill').text();
-                exp = $(this).parent().parent().children('.exp').text();
-                year_join = $(this).parent().parent().children('.year_join').text();
-                $(this).parent().parent().children('.full_name').replaceWith('<td class="full_name"><input type="text" class="form-control" value="'+full_name+'" name="full_name"></td>');
-                $(this).parent().parent().children('.position').replaceWith('<td class="position"><input type="text" class="form-control" value="'+position+'" name="position"></td>');
-                $(this).parent().parent().children('.skill').replaceWith('<td class="skill"><input type="text" class="form-control" value="'+skill+'" name="skill"></td>');
-                $(this).parent().parent().children('.exp').replaceWith('<td class="exp"><input type="text" class="form-control" value="'+exp+'" name="exp"></td>');
-                $(this).parent().parent().children('.year_join').replaceWith('<td class="year_join"><input type="text" class="form-control" value="'+year_join+'" name="year_join"></td>');
+                full_name = $(this).parent().siblings('.full_name').text();
+                staff_dept = $(this).parent().siblings('.staff_dept').text();
+                position = $(this).parent().siblings('.position').text();
+                skill = $(this).parent().siblings('.skill').text();
+                exp = $(this).parent().siblings('.exp').text();
+                year_join = $(this).parent().siblings('.year_join').text();
+                $(this).parent().siblings('.full_name').replaceWith('<td class="full_name"><input type="text" class="form-control" value="'+full_name+'" name="full_name"></td>');
+                $(this).parent().siblings('.position').replaceWith('<td class="position"><input type="text" class="form-control" value="'+position+'" name="position"></td>');
+                $(this).parent().siblings('.skill').replaceWith('<td class="skill"><input type="text" class="form-control" value="'+skill+'" name="skill"></td>');
+                $(this).parent().siblings('.exp').replaceWith('<td class="exp"><input type="text" class="form-control" value="'+exp+'" name="exp"></td>');
+                $(this).parent().siblings('.year_join').replaceWith('<td class="year_join"><input type="text" class="form-control" value="'+year_join+'" name="year_join"></td>');
             });
 
             $(document).on('click', '.btn_save', function(){
@@ -187,7 +191,7 @@
                 $(this).addClass('hidden');
                 $(this).siblings('.btn_delcon').removeClass('hidden');
                 $(this).siblings('.btn_delcon').click(function() {
-                    staff_id = $(this).parent().parent().children('.staff_id').text();
+                    staff_id = $(this).parent().siblings('.staff_id').text();
                     $.ajax({
                         url:'api/staff_delete',
                         data: {staff_id},
@@ -211,21 +215,8 @@
                     method: 'GET',
                     dataType: 'JSON',
                     success: function(staffs) {
-                        staffs.forEach(function (staff) {
-                            $('#staff_detail').append('<tr>\
-                            <td class="full_name">' + staff.full_name + '</td>\
-                            <td class="position">' + staff.position + '</td>\
-                            <td class="skill">' + staff.skill + '</td>\
-                            <td class="exp">' + staff.year_exp + '</td>\
-                            <td class="year_join">' + staff.year_join + '</td>\
-                            <td class="staff_id hidden">' + staff.id + '</td>\
-                            <td class="staff_dept hidden">' + staff.department_id + '</td>\
-                            <td><a href="#" class="btn btn-warning btn_edt">Edit</a>\
-                            <a href="#" class="btn btn-info btn_save hidden">Save</a>\
-                            <a href="#" class="btn btn-danger btn_del">Delete</a>\
-                            <a href="#" class="btn btn-danger btn_delcon hidden">Confirm</a></td></tr>')
-
-                    })} //End of success
+                        RenderStaffTable(staffs)
+                    }
                 }); //End of ajax
             }); //End of clicking button search
 
