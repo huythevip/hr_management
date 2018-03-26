@@ -57,13 +57,9 @@ class HrController extends Controller
 
     public function staff_edit (request $request) {
 
-        $requested_dept = $request->department;
-        $dept_name_id = DB::table('departments')->pluck('id', 'full_name');
-        $dept_id = $dept_name_id[$requested_dept];
-
         $staff = Staff::find($request->staff_id);
             $staff->full_name = $request->full_name;
-            $staff->department_id = $dept_id;
+            $staff->department_id = $request->department;
             $staff->position = $request->position;
             $staff->skill = $request->skill;
             $staff->year_exp = $request->exp;
@@ -77,6 +73,12 @@ class HrController extends Controller
         $staff->delete();
 
         return json_encode(['message' => "Staff deleted permanently"]);
+    }
+
+    public function staff_search (request $request) {
+        $requested_staff = $request->search_content;
+        $staff_list = Staff::where('full_name', 'like', '%'.$requested_staff.'%')->get();
+        return json_encode($staff_list);
     }
 
 }
