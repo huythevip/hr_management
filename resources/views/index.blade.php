@@ -199,7 +199,7 @@
                         dataType: "JSON",
                         success: function(du_lieu) {
                             alert(du_lieu.message);
-                        } //End of success
+                        }, //End of success
                     }); //End of ajax
                 $(this).parent().parent().html('');
                 }); //End of clicking button delete confirm
@@ -215,7 +215,7 @@
                     method: 'GET',
                     dataType: 'JSON',
                     success: function(staffs) {
-                        RenderStaffTable(staffs)
+                        RenderStaffTable(staffs);
                     }
                 }); //End of ajax
             }); //End of clicking button search
