@@ -86,4 +86,11 @@ class HrController extends Controller
         return json_encode($staff_list);
     }
 
+    public function department_delete(request $request) {
+
+        Department::where('full_name', '=', $request->selectedDept)->delete();
+
+        return json_encode(['message' => 'Deleted department and its all staffs']);
+    }
+
 }

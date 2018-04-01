@@ -23,4 +23,5 @@ Route::post('staff_add', 'HrController@staff_add');
 Route::post('staff_edit', 'HrController@staff_edit');
 Route::post('staff_delete', 'HrController@staff_delete');
 Route::get('staff_search', 'HrController@staff_search');
+Route::post('department_delete', 'HrController@department_delete');
 
