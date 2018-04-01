@@ -40,6 +40,8 @@
         <div class="row xuong_20_px">
             <a href="#" class="btn btn-primary" id="create">Create</a>
             <a href="#" class="btn btn-info hidden" id="save">Save</a>
+            <a href="#" class="btn btn-danger" id="delete">Delete</a>
+            <a href="#" class="btn btn-danger hidden" id="confirmDelete">Confirm</a>
         </div>
 
         <div class="row">
@@ -199,7 +201,7 @@
                         dataType: "JSON",
                         success: function(du_lieu) {
                             alert(du_lieu.message);
-                        } //End of success
+                        }, //End of success
                     }); //End of ajax
                 $(this).parent().parent().html('');
                 }); //End of clicking button delete confirm
@@ -215,10 +217,32 @@
                     method: 'GET',
                     dataType: 'JSON',
                     success: function(staffs) {
-                        RenderStaffTable(staffs)
+                        RenderStaffTable(staffs);
                     }
                 }); //End of ajax
             }); //End of clicking button search
+
+            $('#delete').click(function() {
+                $(this).addClass('hidden');
+                $(this).siblings('#confirmDelete').removeClass('hidden');
+            }) //End of clicking delete department function
+
+            $('#confirmDelete').click(function() {
+                var selectedDept = $('#selected_dept').val();
+                $.ajax({
+                    url: 'api/department_delete',
+                    data: {selectedDept},
+                    method: 'POST',
+                    dataType: 'JSON',
+                    success: function(response) {
+                        alert(response.message);
+                    }  //End of success
+                }); //End of ajax
+                $('#selected_dept').val('Please select');
+                $(this).siblings('#delete').removeClass('hidden');
+                $(this).addClass('hidden');
+                $('#staff_detail').html('');
+            }) //End of clicking confirm deleting department function
 
         }); //End of document ready
 

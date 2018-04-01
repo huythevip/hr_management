@@ -76,9 +76,21 @@ class HrController extends Controller
     }
 
     public function staff_search (request $request) {
-        $requested_staff = $request->search_content;
-        $staff_list = Staff::where('full_name', 'like', '%'.$requested_staff.'%')->get();
+        $requestedContent = $request->search_content;
+        $staff_list = Staff::where('full_name', 'like', '%'.$requestedContent.'%')
+                    ->orWhere('position', 'like', '%'.$requestedContent.'%')
+                    ->orWhere('skill', 'like', '%'.$requestedContent.'%')
+                    ->orWhere('year_exp', 'like', '%'.$requestedContent.'%')
+                    ->orWhere('year_join', 'like', '%'.$requestedContent.'%')
+                    ->get();
         return json_encode($staff_list);
+    }
+
+    public function department_delete(request $request) {
+
+        Department::where('full_name', '=', $request->selectedDept)->delete();
+
+        return json_encode(['message' => 'Deleted department and its all staffs']);
     }
 
 }
